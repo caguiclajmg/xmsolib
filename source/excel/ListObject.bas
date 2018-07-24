@@ -1,6 +1,35 @@
 Attribute VB_Name = "excel_ListObject"
 Option Explicit
 
+Private Sub Test()
+    Dim table As listObject: Set table = shtDefault.ListObjects(1)
+    Dim row As ListRow
+    
+    Set row = table.ListRows.Add()
+    row.Range(RowIndex:=1, columnindex:=1) = "Template"
+    
+    Set row = table.ListRows.Add()
+    row.Range(RowIndex:=1, columnindex:=1) = "Test 1"
+    
+    Set row = table.ListRows.Add()
+    row.Range(RowIndex:=1, columnindex:=1) = "Test 2"
+    
+    Set row = table.ListRows.Add()
+    row.Range(RowIndex:=1, columnindex:=1) = "Test 3"
+    
+    ListObject_Clear table, True
+End Sub
+
+Public Sub ListObject_Clear(ByRef listObject As listObject, Optional ByVal preserveTemplateRow As Boolean = False)
+    Dim data As Range: Set data = listObject.DataBodyRange
+    
+    If preserveTemplateRow Then
+        data.offset(1).Resize(data.Rows.Count - 1, data.Columns.Count).Delete
+    Else
+        data.Delete
+    End If
+End Sub
+
 Public Function ListObject_ColumnExists(ByRef listObject As listObject, ByVal index As Variant) As Boolean
     On Error GoTo Err:
     
