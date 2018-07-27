@@ -29,32 +29,29 @@ Public Function ListObject_InsertColumn(ByRef listObject As listObject, ByVal na
     Set ListObject_InsertColumn = columnObject
 End Function
 
-Public Function ListObject_FillColumn(ByRef listObject As listObject, ByVal index As Variant, ParamArray values() As Variant) As ListColumn
-    Dim columnObject As ListColumn: Set columnObject = listObject.ListColumns(index)
+Public Function ListObject_FillColumn(ByRef listObject As listObject, ByRef column As ListColumn, ParamArray values() As Variant) As ListColumn
     Dim rowOffset As Long: rowOffset = IIf(listObject.HeaderRowRange Is Nothing, 0, 1)
     
     Dim i As Long, rowIndex As Long
     For i = LBound(values) To UBound(values)
-        columnObject.Range(rowIndex:=rowIndex + rowOffset) = values(i)
+        column.Range(rowIndex:=rowIndex + rowOffset) = values(i)
         rowIndex = rowIndex + 1
     Next
     
-    Set ListObject_FillColumn = columnObject
+    Set ListObject_FillColumn = column
 End Function
 
-Public Function ListObject_FillRow(ByRef listObject As listObject, ByVal index As Long, ParamArray values() As Variant) As ListRow
-    Dim rowObject As ListRow: Set rowObject = listObject.ListRows(index)
-    
+Public Function ListObject_FillRow(ByRef listObject As listObject, ByRef row As ListRow, ParamArray values() As Variant) As ListRow
     Dim i As Long, columnIndex As Long
     For i = LBound(values) To UBound(values)
-        rowObject.Range(columnIndex:=columnIndex) = values(i)
+        row.Range(columnIndex:=columnIndex) = values(i)
         columnIndex = columnIndex + 1
     Next
     
-    Set ListObject_FillRow = rowObject
+    Set ListObject_FillRow = row
 End Function
 
-Public Function ListObject_FillRowAssociative(ByRef listObject As listObject, ByVal index As Long, ParamArray values() As Variant) As ListRow
+Public Function ListObject_FillRowAssociative(ByRef listObject As listObject, ByRef row As ListRow, ParamArray values() As Variant) As ListRow
     Dim rowOffset As Long: rowOffset = IIf(listObject.HeaderRowRange Is Nothing, 0, 1)
     
     Dim i As Long
@@ -62,10 +59,10 @@ Public Function ListObject_FillRowAssociative(ByRef listObject As listObject, By
         Dim column As String: column = values(i)(0)
         Dim value As String: value = values(i)(1)
         
-        listObject.ListColumns(column).Range(rowIndex:=index + rowOffset) = value
+        listObject.ListColumns(column).Range(rowIndex:=row.index + rowOffset) = value
     Next
     
-    Set ListObject_FillRowAssociative = listObject.DataBodyRange(rowIndex:=index)
+    Set ListObject_FillRowAssociative = listObject.DataBodyRange(rowIndex:=row.index)
 End Function
 
 Public Sub ListObject_ClearData(ByRef listObject As listObject, Optional ByVal preserveTemplateRow As Boolean = False)
