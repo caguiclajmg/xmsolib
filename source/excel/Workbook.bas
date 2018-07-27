@@ -1,16 +1,16 @@
 Attribute VB_Name = "excel_Workbook"
 Option Explicit
 
-Public Function Workbook_SheetExists(ByRef book As Workbook, ByVal index As Variant) As Boolean
+Public Function Workbook_WorksheetExists(ByRef book As Workbook, ByVal index As Variant) As Boolean
     On Error GoTo Err:
     
     Dim sheet As Worksheet: Set sheet = book.Worksheets(index)
     
-    Workbook_SheetExists = True
+    Workbook_WorksheetExists = True
     Exit Function
     
 Err:
-    Workbook_SheetExists = False
+    Workbook_WorksheetExists = False
 End Function
 
 Public Function Workbook_FindSheet(ByRef book As Workbook, ByVal name As String, Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As Worksheet
