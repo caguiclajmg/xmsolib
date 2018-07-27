@@ -1,7 +1,8 @@
 Attribute VB_Name = "excel_Range"
 Option Explicit
 
-Public Function Range_Lookup(ByVal lookupColumn As range, ByVal lookupValue As Variant, ByRef returnColumn As range) As Variant
+Public Function Range_Lookup(ByVal lookupColumn As range, ByVal lookupValue As Variant, Optional ByRef returnColumn As range = Nothing) As Variant
+    If returnColumn Is Nothing Then Set returnColumn = lookupColumn
     Range_Lookup = returnColumn(rowIndex:=Range_FindInColumn(lookupColumn, lookupValue)).value
 End Function
 
