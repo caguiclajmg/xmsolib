@@ -6,34 +6,82 @@ Private Sub Test()
     Dim row As ListRow
     
     Set row = table.ListRows.Add()
-    row.Range(RowIndex:=1, columnindex:=1) = "Template"
+    row.Range(rowIndex:=1, columnIndex:=1) = "Template"
     
     Set row = table.ListRows.Add()
-    row.Range(RowIndex:=1, columnindex:=1) = "Test 1"
+    row.Range(rowIndex:=1, columnIndex:=1) = "Test 1"
     
     Set row = table.ListRows.Add()
-    row.Range(RowIndex:=1, columnindex:=1) = "Test 2"
+    row.Range(rowIndex:=1, columnIndex:=1) = "Test 2"
     
     Set row = table.ListRows.Add()
-    row.Range(RowIndex:=1, columnindex:=1) = "Test 3"
+    row.Range(rowIndex:=1, columnIndex:=1) = "Test 3"
     
-    ListObject_Clear table, True
+    ListObject_ClearData table, True
 End Sub
 
-Public Sub ListObject_Clear(ByRef listObject As listObject, Optional ByVal preserveTemplateRow As Boolean = False)
-    Dim data As Range: Set data = listObject.DataBodyRange
+Public Function ListObject_InsertColumn(ByRef listObject As listObject, ByVal name As String, Optional ByVal position = 0) As ListColumn
+    If position = 0 Then position = listObject.ListColumns.Count + 1
     
-    If preserveTemplateRow Then
-        data.offset(1).Resize(data.Rows.Count - 1, data.Columns.Count).Delete
-    Else
-        data.Delete
-    End If
+    Dim columnObject As ListColumn: Set columnObject = listObject.ListColumns.Add(position)
+    columnObject.name = name
+    
+    Set ListObject_InsertColumn = columnObject
+End Function
+
+Public Function ListObject_FillColumn(ByRef listObject As listObject, ByVal index As Variant, ParamArray values() As Variant) As ListColumn
+    Dim columnObject As ListColumn: Set columnObject = listObject.ListColumns(index)
+    Dim rowOffset As Long: rowOffset = IIf(listObject.HeaderRowRange Is Nothing, 0, 1)
+    
+    Dim i As Long, rowIndex As Long
+    For i = LBound(values) To UBound(values)
+        columnObject.Range(rowIndex:=rowIndex + rowOffset) = values(i)
+        rowIndex = rowIndex + 1
+    Next
+    
+    Set ListObject_FillColumn = columnObject
+End Function
+
+Public Function ListObject_FillRow(ByRef listObject As listObject, ByVal index As Long, ParamArray values() As Variant) As ListRow
+    Dim rowObject As ListRow: Set rowObject = listObject.ListRows(index)
+    
+    Dim i As Long, columnIndex As Long
+    For i = LBound(values) To UBound(values)
+        rowObject.Range(columnIndex:=columnIndex) = values(i)
+        columnIndex = columnIndex + 1
+    Next
+    
+    Set ListObject_FillRow = rowObject
+End Function
+
+Public Function ListObject_FillRowAssociative(ByRef listObject As listObject, ByVal index As Long, ParamArray values() As Variant) As ListRow
+    Dim rowOffset As Long: rowOffset = IIf(listObject.HeaderRowRange Is Nothing, 0, 1)
+    
+    Dim i As Long
+    For i = LBound(values) To UBound(values)
+        Dim column As String: column = values(i)(0)
+        Dim value As String: value = values(i)(1)
+        
+        listObject.ListColumns(column).Range(rowIndex:=index + rowOffset) = value
+    Next
+    
+    Set ListObject_FillRowAssociative = listObject.DataBodyRange(rowIndex:=index)
+End Function
+
+Public Sub ListObject_ClearData(ByRef listObject As listObject, Optional ByVal preserveTemplateRow As Boolean = False)
+    With listObject.DataBodyRange
+        If preserveTemplateRow Then
+            .offset(1).Resize(.Rows.Count - 1, .Columns.Count).Delete
+        Else
+            .Delete
+        End If
+    End With
 End Sub
 
 Public Function ListObject_ColumnExists(ByRef listObject As listObject, ByVal index As Variant) As Boolean
     On Error GoTo Err:
     
-    Dim column As ListColumn: Set column = listObject.ListColumns(index)
+    Dim columnObject As ListColumn: Set columnObject = listObject.ListColumns(index)
     
     ListObject_ColumnExists = True
     Exit Function
@@ -43,10 +91,10 @@ Err:
 End Function
 
 Public Function ListObject_FindColumn(ByRef listObject As listObject, ByVal name As String, Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As ListColumn
-    Dim column As ListColumn
-    For i = 1 To listObject.ListColumns.Count
-        If String_StartsWith(column.name, name, compareMethod) Then
-            Set ListObject_FindColumn = column
+    Dim columnObject As ListColumn
+    For Each columnObject In listObject.ListColumns
+        If String_StartsWith(columnObject.name, name, compareMethod) Then
+            Set ListObject_FindColumn = columnObject
             Exit Function
         End If
     Next
@@ -55,20 +103,20 @@ Public Function ListObject_FindColumn(ByRef listObject As listObject, ByVal name
 End Function
 
 Public Function ListObject_FindRow(ByRef listObject As listObject, ParamArray match() As Variant) As ListRow
-    Dim offset As Long: offset = IIf(listObject.HeaderRowRange Is Nothing, 0, 1)
+    Dim rowOffset As Long: rowOffset = IIf(listObject.HeaderRowRange Is Nothing, 0, 1)
     
     Dim i As Long
     For i = 1 To listObject.ListRows.Count
         Dim found As Boolean: found = True
         Dim j As Long
         For j = LBound(match) To UBound(match)
-            Dim name As String: name = match(j)(0)
-            Dim value As Variant: value = match(j)(1)
+            Dim columnName As String: columnName = match(j)(0)
+            Dim columnValue As Variant: columnValue = match(j)(1)
             
-            Dim column As ListColumn: Set column = listObject.ListColumns(name)
-            Dim cell As Variant: cell = column.Range(RowIndex:=i + offset)
+            Dim columnObject As ListColumn: Set columnObject = listObject.ListColumns(columnName)
+            Dim cellValue As Variant: cellValue = columnObject.Range(rowIndex:=i + rowOffset)
             
-            If value <> cell Then
+            If cellValue <> columnValue Then
                 found = False
                 Exit For
             End If
