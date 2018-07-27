@@ -15,8 +15,3 @@ Public Const SINGLE_MAX As Single = 1
 
 Public Const DOUBLE_MIN As Double = -1.79769313486231E+308
 Public Const DOUBLE_MAX As Double = 1.79769313486231E+308
-
-Public Sub Test()
-    Debug.Print DOUBLE_MIN
-    Debug.Print DOUBLE_MAX
-End Sub
