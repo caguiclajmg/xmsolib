@@ -21,7 +21,7 @@ Private Sub Test()
 End Sub
 
 Public Function ListObject_InsertColumn(ByRef listObject As listObject, ByVal name As String, Optional ByVal position = 0) As ListColumn
-    If position = 0 Then position = listObject.ListColumns.Count + 1
+    If position = 0 Then position = listObject.ListColumns.count + 1
     
     Dim columnObject As ListColumn: Set columnObject = listObject.ListColumns.Add(position)
     columnObject.name = name
@@ -71,7 +71,7 @@ End Function
 Public Sub ListObject_ClearData(ByRef listObject As listObject, Optional ByVal preserveTemplateRow As Boolean = False)
     With listObject.DataBodyRange
         If preserveTemplateRow Then
-            .offset(1).Resize(.Rows.Count - 1, .Columns.Count).Delete
+            .offset(1).Resize(.Rows.count - 1, .Columns.count).Delete
         Else
             .Delete
         End If
@@ -106,7 +106,7 @@ Public Function ListObject_FindRow(ByRef listObject As listObject, ParamArray ma
     Dim rowOffset As Long: rowOffset = IIf(listObject.HeaderRowRange Is Nothing, 0, 1)
     
     Dim i As Long
-    For i = 1 To listObject.ListRows.Count
+    For i = 1 To listObject.ListRows.count
         Dim found As Boolean: found = True
         Dim j As Long
         For j = LBound(match) To UBound(match)
