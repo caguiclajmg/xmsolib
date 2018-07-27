@@ -6,16 +6,16 @@ Private Sub Test()
     Dim row As ListRow
     
     Set row = table.ListRows.Add()
-    row.Range(rowIndex:=1, columnIndex:=1) = "Template"
+    row.range(rowIndex:=1, columnIndex:=1) = "Template"
     
     Set row = table.ListRows.Add()
-    row.Range(rowIndex:=1, columnIndex:=1) = "Test 1"
+    row.range(rowIndex:=1, columnIndex:=1) = "Test 1"
     
     Set row = table.ListRows.Add()
-    row.Range(rowIndex:=1, columnIndex:=1) = "Test 2"
+    row.range(rowIndex:=1, columnIndex:=1) = "Test 2"
     
     Set row = table.ListRows.Add()
-    row.Range(rowIndex:=1, columnIndex:=1) = "Test 3"
+    row.range(rowIndex:=1, columnIndex:=1) = "Test 3"
     
     ListObject_ClearData table, True
 End Sub
@@ -29,29 +29,31 @@ Public Function ListObject_InsertColumn(ByRef listObject As listObject, ByVal na
     Set ListObject_InsertColumn = columnObject
 End Function
 
-Public Function ListObject_FillColumn(ByRef listObject As listObject, ByRef column As ListColumn, ParamArray values() As Variant) As ListColumn
+Public Function ListObject_FillColumn(ByRef column As ListColumn, ParamArray values() As Variant) As ListColumn
+    Dim listObject As listObject: Set listObject = column.Parent
     Dim rowOffset As Long: rowOffset = IIf(listObject.HeaderRowRange Is Nothing, 0, 1)
     
     Dim i As Long, rowIndex As Long
     For i = LBound(values) To UBound(values)
-        column.Range(rowIndex:=rowIndex + rowOffset) = values(i)
+        column.range(rowIndex:=rowIndex + rowOffset) = values(i)
         rowIndex = rowIndex + 1
     Next
     
     Set ListObject_FillColumn = column
 End Function
 
-Public Function ListObject_FillRow(ByRef listObject As listObject, ByRef row As ListRow, ParamArray values() As Variant) As ListRow
+Public Function ListObject_FillRow(ByRef row As ListRow, ParamArray values() As Variant) As ListRow
     Dim i As Long, columnIndex As Long
     For i = LBound(values) To UBound(values)
-        row.Range(columnIndex:=columnIndex) = values(i)
+        row.range(columnIndex:=columnIndex) = values(i)
         columnIndex = columnIndex + 1
     Next
     
     Set ListObject_FillRow = row
 End Function
 
-Public Function ListObject_FillRowAssociative(ByRef listObject As listObject, ByRef row As ListRow, ParamArray values() As Variant) As ListRow
+Public Function ListObject_FillRowAssociative(ByRef row As ListRow, ParamArray values() As Variant) As ListRow
+    Dim listObject As listObject: Set listObject = row.Parent
     Dim rowOffset As Long: rowOffset = IIf(listObject.HeaderRowRange Is Nothing, 0, 1)
     
     Dim i As Long
@@ -59,7 +61,7 @@ Public Function ListObject_FillRowAssociative(ByRef listObject As listObject, By
         Dim column As String: column = values(i)(0)
         Dim value As String: value = values(i)(1)
         
-        listObject.ListColumns(column).Range(rowIndex:=row.index + rowOffset) = value
+        listObject.ListColumns(column).range(rowIndex:=row.index + rowOffset) = value
     Next
     
     Set ListObject_FillRowAssociative = listObject.DataBodyRange(rowIndex:=row.index)
@@ -99,6 +101,18 @@ Public Function ListObject_FindColumn(ByRef listObject As listObject, ByVal name
     Set ListObject_FindColumn = Nothing
 End Function
 
+Public Function ListObject_FindInColumn(ByRef column As ListColumn, ByVal value As Variant) As Long
+    Dim i As Long
+    For i = 1 To column.range.count
+        If column.range(rowIndex:=i) = value Then
+            ListObject_FindInColumn = i
+            Exit Function
+        End If
+    Next
+    
+    ListObject_FindInColumn = 0
+End Function
+
 Public Function ListObject_FindRow(ByRef listObject As listObject, ParamArray match() As Variant) As ListRow
     Dim rowOffset As Long: rowOffset = IIf(listObject.HeaderRowRange Is Nothing, 0, 1)
     
@@ -111,7 +125,7 @@ Public Function ListObject_FindRow(ByRef listObject As listObject, ParamArray ma
             Dim columnValue As Variant: columnValue = match(j)(1)
             
             Dim columnObject As ListColumn: Set columnObject = listObject.ListColumns(columnName)
-            Dim cellValue As Variant: cellValue = columnObject.Range(rowIndex:=i + rowOffset)
+            Dim cellValue As Variant: cellValue = columnObject.range(rowIndex:=i + rowOffset)
             
             If cellValue <> columnValue Then
                 found = False
