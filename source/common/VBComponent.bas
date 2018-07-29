@@ -1,6 +1,10 @@
 Attribute VB_Name = "common_VBComponent"
 Option Explicit
 
+Public Function VBComponent_Import(ByRef document As Object, ByVal path As String) As VBComponent
+    Set VBComponent_Import = document.VBProject.VBComponents.Import(path)
+End Function
+
 Public Sub VBComponent_Export(ByRef document As Object, ByVal name As String, ByVal path As String)
     document.VBProject.VBComponents(name).export path
 End Sub
