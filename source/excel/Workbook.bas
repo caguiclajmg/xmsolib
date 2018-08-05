@@ -13,14 +13,28 @@ Err:
     Workbook_WorksheetExists = False
 End Function
 
-Public Function Workbook_FindSheet(ByVal book As Workbook, ByVal name As String, Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As Worksheet
+Public Function Workbook_FindWorksheet(ByVal book As Workbook, ByVal name As String, Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As Worksheet
     Dim sheet As Worksheet
     For Each sheet In book.Worksheets
         If String_StartsWith(sheet.name, name, compareMethod) Then
-            Workbook_FindSheet = sheet
+            Workbook_FindWorksheet = sheet
             Exit Function
         End If
     Next
     
-    Set Workbook_FindSheet = Nothing
+    Set Workbook_FindWorksheet = Nothing
 End Function
+
+Public Function Workbook_FindTable(ByVal book As Workbook, ByVal name As String, Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As listObject
+    Dim sheet As Worksheet
+    For Each sheet In book.Worksheets
+        Dim list As listObject: Set list = Worksheet_FindTable(sheet, name, compareMethod)
+        If Not list Is Nothing Then
+            Set Workbook_FindTable = list
+            Exit Function
+        End If
+    Next
+    
+    Set Workbook_FindTable = Nothing
+End Function
+

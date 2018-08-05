@@ -45,4 +45,6 @@ Public Function Worksheet_FindChart(ByVal sheet As Worksheet, ByVal name As Stri
             Exit Function
         End If
     Next
+    
+    Set Worksheet_FindChart = Nothing
 End Function

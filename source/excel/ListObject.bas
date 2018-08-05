@@ -1,25 +1,6 @@
 Attribute VB_Name = "excel_ListObject"
 Option Explicit
 
-Private Sub Test()
-    Dim table As listObject: Set table = shtDefault.ListObjects(1)
-    Dim row As ListRow
-    
-    Set row = table.ListRows.Add()
-    row.range(rowIndex:=1, columnIndex:=1) = "Template"
-    
-    Set row = table.ListRows.Add()
-    row.range(rowIndex:=1, columnIndex:=1) = "Test 1"
-    
-    Set row = table.ListRows.Add()
-    row.range(rowIndex:=1, columnIndex:=1) = "Test 2"
-    
-    Set row = table.ListRows.Add()
-    row.range(rowIndex:=1, columnIndex:=1) = "Test 3"
-    
-    ListObject_ClearData table, True
-End Sub
-
 Public Function ListObject_InsertColumn(ByVal listObject As listObject, ByVal name As String, Optional ByVal position = 0) As ListColumn
     If position = 0 Then position = listObject.ListColumns.count + 1
     
