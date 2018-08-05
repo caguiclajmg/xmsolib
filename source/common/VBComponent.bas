@@ -1,6 +1,37 @@
 Attribute VB_Name = "common_VBComponent"
 Option Explicit
 
+Private Sub asd()
+    Debug.Print VarType(Array(Array("asd"), Array("asd")))
+    Debug.Print VarType(Array(Array("asd"), Array("asd")))
+    Debug.Print VarType(CVar("ASD"))
+    ReDim e(0 To 1) As Integer
+    Debug.Print VarType(e)
+End Sub
+
+Public Sub TestCompile()
+    With ThisWorkbook.VBProject.VBComponents
+    Dim component As VBComponent: Set component = VBComponent_Compile(.Item("common_Array"), .Item("common_FileSystem"))
+    End With
+End Sub
+
+Public Function VBComponent_Compile(ParamArray components() As Variant) As VBComponent
+    Dim resultCode As String
+    
+    Dim i As Long, componentCode As String
+    For i = LBound(components) To UBound(components)
+        componentCode = components(i).CodeModule.Lines(1, components(i).CodeModule.CountOfLines)
+        componentCode = Replace(componentCode, "Option Explicit", "")
+        resultCode = resultCode & componentCode
+    Next
+    
+    Dim resultComponent As VBComponent: Set resultComponent = ThisWorkbook.VBProject.VBComponents.Add(vbext_ct_StdModule)
+    resultComponent.CodeModule.AddFromString resultCode
+    'resultComponent.Type = vbext_ct_StdModule
+    
+    Set VBComponent_Compile = resultComponent
+End Function
+
 Public Function VBComponent_Import(ByRef document As Object, ByVal path As String) As VBComponent
     Set VBComponent_Import = document.VBProject.VBComponents.Import(path)
 End Function

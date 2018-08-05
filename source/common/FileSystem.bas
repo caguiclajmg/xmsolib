@@ -1,5 +1,10 @@
 Attribute VB_Name = "common_FileSystem"
 Option Explicit
+#If Mac Then
+Public Const DIRECTORY_SEPARATOR As String = "/"
+#Else
+Public Const DIRECTORY_SEPARATOR As String = "\"
+#End If
 
 Public Function FileSystem_StripExtension(ByVal path As String) As String
     Dim position As Long: position = InStrRev(path, ".")
@@ -8,7 +13,7 @@ Public Function FileSystem_StripExtension(ByVal path As String) As String
 End Function
 
 Public Function FileSystem_EnumerateFiles(ByVal path As String, Optional ByVal match As String = "*", Optional ByVal flags As VbFileAttribute = vbNormal) As String()
-    If Right$(path, 1) <> "\" Then path = path & "\"
+    If Right$(path, 1) <> "\" Then path = path & DIRECTORY_SEPARATOR
     
     Dim count As Long, filename As String
     

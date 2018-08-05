@@ -1,5 +1,10 @@
 Attribute VB_Name = "modComponents"
 Option Explicit
+#If Mac Then
+Private Const DIRECTORY_SEPARATOR As String = "/"
+#Else
+Private Const DIRECTORY_SEPARATOR As String = "\"
+#End If
 
 Private Function FolderExists(ByVal path As String) As Boolean
     On Error GoTo Err:
@@ -28,14 +33,11 @@ End Sub
 Public Sub Components_Save(ByVal id As String, ByRef document As Object, ByVal path As String)
     Dim components As VBComponents: Set components = document.VBProject.VBComponents
     
-    If Right$(path, 1) <> "\" Then path = path & "\"
-    
-    Dim regexp As Object: Set regexp = CreateObject("vbscript.regexp")
-    regexp.Pattern = "(" & id & "|common)\_(.+)"
+    If Right$(path, 1) <> DIRECTORY_SEPARATOR Then path = path & DIRECTORY_SEPARATOR
     
     Dim component As VBComponent
     For Each component In components
-        If regexp.Test(component.name) Then
+        If (component.name Like id & "_*") Or (component.name Like "common_*") Then
             Dim extension As String
             Select Case component.Type
                 Case vbext_ct_ClassModule, vbext_ct_Document
@@ -55,7 +57,7 @@ Public Sub Components_Save(ByVal id As String, ByRef document As Object, ByVal p
             
             Dim component_path As String
             
-            component_path = path & tokens(0) & "\"
+            component_path = path & tokens(0) & DIRECTORY_SEPARATOR
             If Not FolderExists(component_path) Then CreateDirectory component_path
             
             component_path = component_path & tokens(1) & IIf(extension = vbNullString, vbNullString, "." & extension)
@@ -84,18 +86,18 @@ End Sub
 
 Public Sub Components_Load(ByVal id As String, ByRef document As Object)
     Dim components As VBComponents: Set components = document.VBProject.VBComponents
-    Dim path_root As String: path_root = document.path & "\"
+    Dim path_root As String: path_root = document.path & DIRECTORY_SEPARATOR
     
     Dim path_base, file As String
     
-    path_base = path_root & "common\"
+    path_base = path_root & "common" & DIRECTORY_SEPARATOR
     file = Dir$(path_base, vbNormal)
     While file <> vbNullString
         components.Import path_base & file
         file = Dir$()
     Wend
 
-    path_base = path_root & id & "\"
+    path_base = path_root & id & DIRECTORY_SEPARATOR
     file = Dir$(path_base, vbNormal)
     While file <> vbNullString
         components.Import path_base & file
