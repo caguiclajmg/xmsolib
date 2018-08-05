@@ -91,7 +91,7 @@ Public Function ListObject_FindInColumn(ByVal column As ListColumn, ByVal value 
         End If
     Next
     
-    ListObject_FindInColumn = 0
+    ListObject_FindInColumn = -1
 End Function
 
 Public Function ListObject_FindRow(ByVal listObject As listObject, ParamArray match() As Variant) As ListRow
@@ -121,5 +121,4 @@ Public Function ListObject_FindRow(ByVal listObject As listObject, ParamArray ma
     Next
     
     Set ListObject_FindRow = Nothing
-    Exit Function
 End Function

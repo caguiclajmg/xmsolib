@@ -2,17 +2,26 @@ Attribute VB_Name = "excel_Range"
 Option Explicit
 
 Public Function Range_Lookup(ByVal lookupRange As range, ByVal lookupValue As Variant, ByVal returnRange As range) As Variant
-    Range_Lookup = returnRange(lookupRange.Application.WorksheetFunction.match(lookupValue, lookupRange, True))
-End Function
-
-Public Function Range_FindInColumn(ByVal range As range, ByVal value As Variant) As Long
     On Error GoTo Error:
     
-    Range_FindInColumn = CLng(range.Application.WorksheetFunction.match(value, range, 0))
+    Dim index As Long: index = Range_Match(lookupRange, lookupValue)
+    If index = -1 Then Err.Raise xlReference
+    
+    Range_Lookup = returnRange(index).value
     Exit Function
     
 Error:
-    Range_FindInColumn = 0
+    Range_Lookup = Null
+End Function
+
+Public Function Range_Match(ByVal range As range, ByVal value As Variant) As Long
+    On Error GoTo Error:
+    
+    Range_Match = CLng(range.Application.WorksheetFunction.match(value, range, 0))
+    Exit Function
+    
+Error:
+    Range_Match = -1
 End Function
 
 Public Function Range_Count(ByVal range As range) As Long
