@@ -20,7 +20,7 @@ Private Sub Test()
     ListObject_ClearData table, True
 End Sub
 
-Public Function ListObject_InsertColumn(ByRef listObject As listObject, ByVal name As String, Optional ByVal position = 0) As ListColumn
+Public Function ListObject_InsertColumn(ByVal listObject As listObject, ByVal name As String, Optional ByVal position = 0) As ListColumn
     If position = 0 Then position = listObject.ListColumns.count + 1
     
     Dim columnObject As ListColumn: Set columnObject = listObject.ListColumns.Add(position)
@@ -29,7 +29,7 @@ Public Function ListObject_InsertColumn(ByRef listObject As listObject, ByVal na
     Set ListObject_InsertColumn = columnObject
 End Function
 
-Public Function ListObject_FillColumn(ByRef column As ListColumn, ParamArray values() As Variant) As ListColumn
+Public Function ListObject_FillColumn(ByVal column As ListColumn, ParamArray values() As Variant) As ListColumn
     Dim listObject As listObject: Set listObject = column.Parent
     Dim rowOffset As Long: rowOffset = IIf(listObject.HeaderRowRange Is Nothing, 0, 1)
     
@@ -42,7 +42,7 @@ Public Function ListObject_FillColumn(ByRef column As ListColumn, ParamArray val
     Set ListObject_FillColumn = column
 End Function
 
-Public Function ListObject_FillRow(ByRef row As ListRow, ParamArray values() As Variant) As ListRow
+Public Function ListObject_FillRow(ByVal row As ListRow, ParamArray values() As Variant) As ListRow
     Dim i As Long, columnIndex As Long
     For i = LBound(values) To UBound(values)
         row.range(columnIndex:=columnIndex) = values(i)
@@ -52,7 +52,7 @@ Public Function ListObject_FillRow(ByRef row As ListRow, ParamArray values() As 
     Set ListObject_FillRow = row
 End Function
 
-Public Function ListObject_FillRowAssociative(ByRef row As ListRow, ParamArray values() As Variant) As ListRow
+Public Function ListObject_FillRowAssociative(ByVal row As ListRow, ParamArray values() As Variant) As ListRow
     Dim listObject As listObject: Set listObject = row.Parent
     Dim rowOffset As Long: rowOffset = IIf(listObject.HeaderRowRange Is Nothing, 0, 1)
     
@@ -67,7 +67,7 @@ Public Function ListObject_FillRowAssociative(ByRef row As ListRow, ParamArray v
     Set ListObject_FillRowAssociative = listObject.DataBodyRange(rowIndex:=row.index)
 End Function
 
-Public Sub ListObject_ClearData(ByRef listObject As listObject, Optional ByVal preserveTemplateRow As Boolean = False)
+Public Sub ListObject_ClearData(ByVal listObject As listObject, Optional ByVal preserveTemplateRow As Boolean = False)
     With listObject.DataBodyRange
         If preserveTemplateRow Then
             .offset(1).Resize(.Rows.count - 1, .Columns.count).Delete
@@ -77,7 +77,7 @@ Public Sub ListObject_ClearData(ByRef listObject As listObject, Optional ByVal p
     End With
 End Sub
 
-Public Function ListObject_ColumnExists(ByRef listObject As listObject, ByVal index As Variant) As Boolean
+Public Function ListObject_ColumnExists(ByVal listObject As listObject, ByVal index As Variant) As Boolean
     On Error GoTo Err:
     
     Dim columnObject As ListColumn: Set columnObject = listObject.ListColumns(index)
@@ -89,7 +89,7 @@ Err:
     ListObject_ColumnExists = False
 End Function
 
-Public Function ListObject_FindColumn(ByRef listObject As listObject, ByVal name As String, Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As ListColumn
+Public Function ListObject_FindColumn(ByVal listObject As listObject, ByVal name As String, Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As ListColumn
     Dim columnObject As ListColumn
     For Each columnObject In listObject.ListColumns
         If String_StartsWith(columnObject.name, name, compareMethod) Then
@@ -101,7 +101,7 @@ Public Function ListObject_FindColumn(ByRef listObject As listObject, ByVal name
     Set ListObject_FindColumn = Nothing
 End Function
 
-Public Function ListObject_FindInColumn(ByRef column As ListColumn, ByVal value As Variant) As Long
+Public Function ListObject_FindInColumn(ByVal column As ListColumn, ByVal value As Variant) As Long
     Dim i As Long
     For i = 1 To column.range.count
         If column.range(rowIndex:=i) = value Then
@@ -113,7 +113,7 @@ Public Function ListObject_FindInColumn(ByRef column As ListColumn, ByVal value 
     ListObject_FindInColumn = 0
 End Function
 
-Public Function ListObject_FindRow(ByRef listObject As listObject, ParamArray match() As Variant) As ListRow
+Public Function ListObject_FindRow(ByVal listObject As listObject, ParamArray match() As Variant) As ListRow
     Dim rowOffset As Long: rowOffset = IIf(listObject.HeaderRowRange Is Nothing, 0, 1)
     
     Dim i As Long

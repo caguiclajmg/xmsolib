@@ -12,11 +12,11 @@ Public Function VBComponent_FromString(ByVal document As Object, ByVal ctype As 
     Set VBComponent_FromString = component
 End Function
 
-Public Function VBComponent_Import(ByRef document As Object, ByVal path As String) As VBComponent
+Public Function VBComponent_Import(ByVal document As Object, ByVal path As String) As VBComponent
     Set VBComponent_Import = document.VBProject.VBComponents.Import(path)
 End Function
 
-Public Sub VBComponent_Export(ByRef document As Object, ByVal name As String, ByVal path As String, Optional ByVal filename As String = vbNullString)
+Public Sub VBComponent_Export(ByVal document As Object, ByVal name As String, ByVal path As String, Optional ByVal filename As String = vbNullString)
     Dim component As VBComponent: Set component = document.VBProject.VBComponents(name)
     
     Dim extension As String
@@ -38,7 +38,7 @@ Public Sub VBComponent_Export(ByRef document As Object, ByVal name As String, By
     document.VBProject.VBComponents(name).export path & IIf(filename = vbNullString, component.name, filename) & IIf(extension = vbNullString, vbNullString, "." & extension)
 End Sub
 
-Public Function VBComponent_ComponentExists(ByRef document As Object, ByVal name As String) As Boolean
+Public Function VBComponent_ComponentExists(ByVal document As Object, ByVal name As String) As Boolean
     On Error GoTo Err:
     
     Dim component As VBComponent: Set component = document.VBProject.VBComponents(name)

@@ -30,7 +30,7 @@ Private Sub CreateDirectory(ByVal path As String)
     MkDir path
 End Sub
 
-Public Sub Components_Save(ByVal id As String, ByRef document As Object, ByVal path As String)
+Public Sub Components_Save(ByVal id As String, ByVal document As Object, ByVal path As String)
     Dim components As VBComponents: Set components = document.VBProject.VBComponents
     
     If Right$(path, 1) <> DIRECTORY_SEPARATOR Then path = path & DIRECTORY_SEPARATOR
@@ -70,7 +70,7 @@ Public Sub Components_Save(ByVal id As String, ByRef document As Object, ByVal p
     components("modComponents").export path & "Components.bas"
 End Sub
 
-Public Sub Components_Clear(ByRef document As Object)
+Public Sub Components_Clear(ByVal document As Object)
     On Error Resume Next
     
     Dim components As VBComponents: Set components = document.VBProject.VBComponents
@@ -84,7 +84,7 @@ Public Sub Components_Clear(ByRef document As Object)
     Next
 End Sub
 
-Public Sub Components_Load(ByVal id As String, ByRef document As Object)
+Public Sub Components_Load(ByVal id As String, ByVal document As Object)
     Dim components As VBComponents: Set components = document.VBProject.VBComponents
     Dim path_root As String: path_root = document.path & DIRECTORY_SEPARATOR
     
@@ -105,7 +105,7 @@ Public Sub Components_Load(ByVal id As String, ByRef document As Object)
     Wend
 End Sub
 
-Public Sub Components_Reload(ByVal id As String, ByRef document As Object)
+Public Sub Components_Reload(ByVal id As String, ByVal document As Object)
     Components_Clear document
     Components_Load id, document
 End Sub

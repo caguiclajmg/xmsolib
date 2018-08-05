@@ -1,11 +1,11 @@
 Attribute VB_Name = "common_Array"
 Option Explicit
 
-Public Function Array_Count(ByRef arr As Variant) As Long
+Public Function Array_Count(ByVal arr As Variant) As Long
     Array_Count = UBound(arr) - LBound(arr) + 1
 End Function
 
-Public Function Array_Equals(ByRef arr As Variant, ByRef other As Variant) As Boolean
+Public Function Array_Equals(ByVal arr As Variant, ByVal other As Variant) As Boolean
     If Array_Count(arr) <> Array_Count(other) Then
         Array_Equals = False
         Exit Function
