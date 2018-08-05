@@ -10,14 +10,14 @@ Public Function String_IsNull(ByVal value As String) As Boolean
 End Function
 
 Public Function String_IsNumber(ByVal value As String) As Boolean
-    On Error GoTo Err:
+    On Error GoTo Error:
     
     Dim number As Double: number = CDbl(value)
     
     String_IsNumber = True
     Exit Function
     
-Err:
+Error:
     String_IsNumber = False
 End Function
 

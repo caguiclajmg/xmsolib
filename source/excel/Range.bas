@@ -6,15 +6,17 @@ Public Function Range_Lookup(ByVal lookupColumn As range, ByVal lookupValue As V
     Range_Lookup = returnColumn(rowIndex:=Range_FindInColumn(lookupColumn, lookupValue)).value
 End Function
 
+Private Sub Test()
+    Debug.Print Range_FindInColumn(shtDefault.range("J8:J12"), "QQQ")
+End Sub
+
 Public Function Range_FindInColumn(ByVal range As range, ByVal value As Variant) As Long
-    Dim i As Long
-    For i = 1 To range.Rows.count
-        If range(rowIndex:=i).value = value Then
-            Range_FindInColumn = i
-            Exit Function
-        End If
-    Next
+    On Error GoTo Error:
     
+    Range_FindInColumn = CLng(range.Application.WorksheetFunction.match(value, range, 0))
+    Exit Function
+    
+Error:
     Range_FindInColumn = 0
 End Function
 

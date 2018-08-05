@@ -39,13 +39,13 @@ Public Sub VBComponent_Export(ByVal project As VBProject, ByVal name As String, 
 End Sub
 
 Public Function VBComponent_Exists(ByVal project As VBProject, ByVal name As String) As Boolean
-    On Error GoTo Err:
+    On Error GoTo Error:
     
     Dim component As VBComponent: Set component = project.VBComponents(name)
     
     VBComponent_Exists = True
     Exit Function
     
-Err:
+Error:
     VBComponent_Exists = False
 End Function

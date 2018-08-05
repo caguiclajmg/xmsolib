@@ -49,21 +49,21 @@ Public Function FileSystem_StripPath(ByVal path As String) As String
 End Function
 
 Public Function FileSystem_FolderExists(ByVal path As String) As Boolean
-    On Error GoTo Err:
+    On Error GoTo Error:
     
     FileSystem_FolderExists = (GetAttr(path) And vbDirectory) = vbDirectory
     Exit Function
     
-Err:
+Error:
     FileSystem_FolderExists = False
 End Function
 
 Public Function FileSystem_FileExists(ByVal path As String) As Boolean
-    On Error GoTo Err:
+    On Error GoTo Error:
     
     FileSystem_FileExists = (GetAttr(path) And vbDirectory) <> vbDirectory
     Exit Function
     
-Err:
+Error:
     FileSystem_FileExists = False
 End Function

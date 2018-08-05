@@ -59,14 +59,14 @@ Public Sub ListObject_ClearData(ByVal listObject As listObject, Optional ByVal p
 End Sub
 
 Public Function ListObject_ColumnExists(ByVal listObject As listObject, ByVal index As Variant) As Boolean
-    On Error GoTo Err:
+    On Error GoTo Error:
     
     Dim columnObject As ListColumn: Set columnObject = listObject.ListColumns(index)
     
     ListObject_ColumnExists = True
     Exit Function
     
-Err:
+Error:
     ListObject_ColumnExists = False
 End Function
 
