@@ -35,7 +35,7 @@ Public Sub VBComponent_Export(ByVal project As VBProject, ByVal name As String, 
     End Select
     
     If Right$(path, 1) <> "\" Then path = path & "\"
-    project.VBComponents(name).export path & IIf(filename = vbNullString, component.name, filename) & IIf(extension = vbNullString, vbNullString, "." & extension)
+    project.VBComponents(name).Export path & IIf(filename = vbNullString, component.name, filename) & IIf(extension = vbNullString, vbNullString, "." & extension)
 End Sub
 
 Public Function VBComponent_Exists(ByVal project As VBProject, ByVal name As String) As Boolean

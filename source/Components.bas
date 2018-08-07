@@ -63,11 +63,11 @@ Public Sub Components_Save(ByVal id As String, ByVal document As Object, ByVal p
             component_path = component_path & tokens(1) & IIf(extension = vbNullString, vbNullString, "." & extension)
             If FileExists(component_path) Then Kill (component_path)
             
-            component.export component_path
+            component.Export component_path
         End If
     Next
     
-    components("modComponents").export path & "Components.bas"
+    components("modComponents").Export path & "Components.bas"
 End Sub
 
 Public Sub Components_Clear(ByVal document As Object)
@@ -108,4 +108,26 @@ End Sub
 Public Sub Components_Reload(ByVal id As String, ByVal document As Object)
     Components_Clear document
     Components_Load id, document
+End Sub
+
+Public Sub Components_Compile(ByVal id As String, ByVal document As Object)
+    Dim components As VBComponents: Set components = document.VBProject.VBComponents
+    
+    Dim resultCode As String
+    
+    Dim component As VBComponent
+    For Each component In components
+        If (component.Type = vbext_ct_StdModule) And ((component.name Like id & "_*") Or (component.name Like "common_*")) Then
+            Dim componentCode As String: componentCode = component.CodeModule.Lines(1, component.CodeModule.CountOfLines)
+            componentCode = Replace(componentCode, "Option Explicit", vbNullString)
+            resultCode = resultCode & componentCode
+        End If
+    Next
+    
+    Dim resultComponent As VBComponent: Set resultComponent = document.VBProject.VBComponents.Add(vbext_ct_StdModule)
+    resultComponent.CodeModule.AddFromString resultCode
+    resultComponent.name = "xmsolib"
+    
+    resultComponent.Export document.path & DIRECTORY_SEPARATOR & ".." & DIRECTORY_SEPARATOR & "build" & DIRECTORY_SEPARATOR & "xmsolib.bas"
+    components.Remove resultComponent
 End Sub
