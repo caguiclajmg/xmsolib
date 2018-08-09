@@ -13,7 +13,7 @@ Public Function FileSystem_StripExtension(ByVal path As String) As String
 End Function
 
 Public Function FileSystem_EnumerateFiles(ByVal path As String, Optional ByVal match As String = "*", Optional ByVal flags As VbFileAttribute = vbNormal) As String()
-    If Right$(path, 1) <> "\" Then path = path & DIRECTORY_SEPARATOR
+    If Right$(path, 1) <> DIRECTORY_SEPARATOR Then path = path & DIRECTORY_SEPARATOR
     
     Dim count As Long, filename As String
     
@@ -43,7 +43,7 @@ Public Function FileSystem_EnumerateFiles(ByVal path As String, Optional ByVal m
 End Function
 
 Public Function FileSystem_StripPath(ByVal path As String) As String
-    Dim position As Long: position = InStrRev(path, "\")
+    Dim position As Long: position = InStrRev(path, DIRECTORY_SEPARATOR)
     
     FileSystem_StripPath = IIf(position = 0, path, Right$(path, Len(path) - position))
 End Function
