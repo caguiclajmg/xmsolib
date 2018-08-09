@@ -464,7 +464,7 @@ Public Function Workbook_FindWorksheet(ByVal book As Workbook, ByVal name As Str
     Dim sheet As Worksheet
     For Each sheet In book.Worksheets
         If String_StartsWith(sheet.name, name, compareMethod) Then
-            Workbook_FindWorksheet = sheet
+            Set Workbook_FindWorksheet = sheet
             Exit Function
         End If
     Next
