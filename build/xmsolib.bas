@@ -426,7 +426,7 @@ Public Function Range_Average(ByVal range As range) As Double
     Range_Average = range.Application.WorksheetFunction.Average(range)
 End Function
 
-Public Function UDF_Ifs(ParamArray pairs() As Variant) As Variant
+Public Function UDF_Ifs(ByVal default As Variant, ParamArray pairs() As Variant) As Variant
     Dim i As Long
     For i = LBound(pairs) To UBound(pairs) Step 2
         If CBool(pairs(i)) Then
@@ -435,7 +435,7 @@ Public Function UDF_Ifs(ParamArray pairs() As Variant) As Variant
         End If
     Next
     
-    UDF_Ifs = CVErr(xlValue)
+    UDF_Ifs = default
 End Function
 
 Public Function UDF_Match(ByVal range As range, ByVal value As Variant) As Variant
