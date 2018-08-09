@@ -213,6 +213,8 @@ Public Function String_Format(ByVal format As String, ParamArray parameters() As
         result = RegEx_Replace(result, "\{\d+\}", matches(current).Value, flagGlobal:=False)
         current = current + 1
     Wend
+    
+    String_Format = result
 End Function
 
 Public Const BYTE_MIN As Byte = 0
