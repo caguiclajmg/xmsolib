@@ -21,3 +21,15 @@ Public Function Array_Equals(ByVal arr As Variant, ByVal other As Variant) As Bo
     
     Array_Equals = True
 End Function
+
+Public Function Array_Contains(ByVal arr As Variant, ByVal match As Variant) As Boolean
+    Dim i As Long
+    For i = LBound(arr) To UBound(arr)
+        If arr(i) = match Then
+            Array_Contains = True
+            Exit Function
+        End If
+    Next
+    
+    Array_Contains = False
+End Function
