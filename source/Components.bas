@@ -76,11 +76,11 @@ Public Sub Components_Clear(ByVal document As Object)
     Dim components As VBComponents: Set components = document.VBProject.VBComponents
     
     Dim regexp As Object: Set regexp = CreateObject("vbscript.regexp")
-    regexp.Pattern = "(excel|common)\_(.+)"
+    regexp.pattern = "(excel|common)\_(.+)"
     
     Dim component As VBComponent
     For Each component In components
-        If regexp.Test(component.name) Then components.Remove component
+        If regexp.test(component.name) Then components.Remove component
     Next
 End Sub
 
@@ -119,7 +119,7 @@ Public Sub Components_Compile(ByVal id As String, ByVal document As Object)
     For Each component In components
         If (component.Type = vbext_ct_StdModule) And ((component.name Like id & "_*") Or (component.name Like "common_*")) Then
             Dim componentCode As String: componentCode = component.CodeModule.Lines(1, component.CodeModule.CountOfLines)
-            componentCode = Replace(componentCode, "Option Explicit", vbNullString)
+            componentCode = replace(componentCode, "Option Explicit", vbNullString)
             resultCode = resultCode & componentCode
         End If
     Next

@@ -197,6 +197,24 @@ Public Function String_Trim(ByVal value As String, Optional ByVal match As Strin
     String_Trim = String_TrimStart(String_TrimEnd(value, match, compareMethod), match, compareMethod)
 End Function
 
+Public Function String_Format(ByVal format As String, ParamArray parameters() As Variant) As String
+    Dim result As String: result = format
+    
+    Dim tokens() As String: tokens = RegEx_Execute(result, "\{\d+\}")
+    
+    Dim i As Long
+    For i = LBound(tokens) To UBound(tokens)
+        Dim index As Long: index = CLng(Mid$(tokens(i), 2, Len(tokens(i)) - 1))
+        tokens(i) = parameters(i)
+    Next
+    
+    Dim current As Long: current = LBound(tokens)
+    While result Like RegEx_Test(result, "\{\d+\}")
+        result = RegEx_Replace(result, "\{\d+\}", tokens(current), flagGlobal:=False)
+        current = current + 1
+    Wend
+End Function
+
 Public Const BYTE_MIN As Byte = 0
 Public Const BYTE_MAX As Byte = 255
 
@@ -544,4 +562,32 @@ Public Function Worksheet_FindChart(ByVal sheet As Worksheet, ByVal name As Stri
     Next
     
     Set Worksheet_FindChart = Nothing
+End Function
+
+Public Function RegEx_Test(ByVal test As String, ByVal pattern As String, Optional ByVal flagGlobal As Boolean = True, Optional ByVal flagIgnoreCase As Boolean = False) As Boolean
+#If Mac Then
+    ' TODO: RegEx implementation for macOS
+    RegEx_Test = True
+#Else
+    Dim regexp As Object: Set regexp = CreateObject("VBScript.RegExp")
+    regexp.pattern = pattern
+    regexp.Global = flagGlobal
+    regexp.ignoreCase = flagIgnoreCase
+    
+    RegEx_Test = regexp.test(test)
+#End If
+End Function
+
+Public Function RegEx_Replace(ByVal test As String, ByVal pattern As String, ByVal replace As String, Optional ByVal flagGlobal As Boolean = True, Optional ByVal flagIgnoreCase As Boolean = False) As String
+#If Mac Then
+    ' TODO: RegEx implementation for macOS
+    RegEx_Replace = test
+#Else
+    Dim regexp As Object: Set regexp = CreateObject("VBScript.RegExp")
+    regexp.pattern = pattern
+    regexp.Global = flagGlobal
+    regexp.ignoreCase = flagIgnoreCase
+    
+    RegEx_Replace = regexp.replace(test, replace)
+#End If
 End Function

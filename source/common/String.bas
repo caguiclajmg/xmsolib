@@ -70,3 +70,21 @@ End Function
 Public Function String_Trim(ByVal value As String, Optional ByVal match As String = " ", Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As String
     String_Trim = String_TrimStart(String_TrimEnd(value, match, compareMethod), match, compareMethod)
 End Function
+
+Public Function String_Format(ByVal format As String, ParamArray parameters() As Variant) As String
+    Dim result As String: result = format
+    
+    Dim tokens() As String: tokens = RegEx_Execute(result, "\{\d+\}")
+    
+    Dim i As Long
+    For i = LBound(tokens) To UBound(tokens)
+        Dim index As Long: index = CLng(Mid$(tokens(i), 2, Len(tokens(i)) - 1))
+        tokens(i) = parameters(i)
+    Next
+    
+    Dim current As Long: current = LBound(tokens)
+    While result Like RegEx_Test(result, "\{\d+\}")
+        result = RegEx_Replace(result, "\{\d+\}", tokens(current), flagGlobal:=False)
+        current = current + 1
+    Wend
+End Function
