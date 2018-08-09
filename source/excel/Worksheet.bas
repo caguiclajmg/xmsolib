@@ -1,10 +1,10 @@
 Attribute VB_Name = "excel_Worksheet"
 Option Explicit
 
-Public Function Worksheet_TableExists(ByVal sheet As Worksheet, ByVal index As Variant) As Boolean
+Public Function Worksheet_TableExists(ByVal sheet As Worksheet, ByVal Index As Variant) As Boolean
     On Error GoTo Error:
     
-    Dim table As listObject: Set table = sheet.ListObjects(index)
+    Dim table As listObject: Set table = sheet.ListObjects(Index)
     
     Worksheet_TableExists = True
     Exit Function
@@ -13,10 +13,10 @@ Error:
     Worksheet_TableExists = False
 End Function
 
-Public Function Worksheet_ChartExists(ByVal sheet As Worksheet, ByVal index As Variant) As Boolean
+Public Function Worksheet_ChartExists(ByVal sheet As Worksheet, ByVal Index As Variant) As Boolean
     On Error GoTo Error:
     
-    Dim chart As ChartObject: Set chart = sheet.ChartObjects(index)
+    Dim chart As ChartObject: Set chart = sheet.ChartObjects(Index)
     
     Worksheet_ChartExists = True
     Exit Function

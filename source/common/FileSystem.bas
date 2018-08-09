@@ -26,14 +26,14 @@ Public Function FileSystem_EnumerateFiles(ByVal path As String, Optional ByVal m
     
     If count = 0 Then Exit Function
     
-    Dim index As Long: index = 1
+    Dim Index As Long: Index = 1
     ReDim result(1 To count) As String
     
     filename = Dir$(path & match, flags)
     While filename <> vbNullString
         If (filename <> ".") And (filename <> "..") Then
-            result(index) = filename
-            index = index + 1
+            result(Index) = filename
+            Index = Index + 1
         End If
         
         filename = Dir$()

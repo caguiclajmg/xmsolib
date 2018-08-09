@@ -13,24 +13,24 @@ Public Function UDF_Ifs(ByVal default As Variant, ParamArray pairs() As Variant)
     UDF_Ifs = default
 End Function
 
-Public Function UDF_Match(ByVal range As range, ByVal value As Variant) As Variant
-    Dim index As Long: index = Range_Match(range, value)
+Public Function UDF_Match(ByVal range As range, ByVal Value As Variant) As Variant
+    Dim Index As Long: Index = Range_Match(range, Value)
     
-    If index = -1 Then
+    If Index = -1 Then
         UDF_Match = CVErr(xlValue)
         Exit Function
     End If
     
-    UDF_Match = index
+    UDF_Match = Index
 End Function
 
 Public Function UDF_Lookup(ByVal lookupRange As range, ByVal lookupValue As Variant, ByVal returnRange As range) As Variant
-    Dim value As Variant: value = Range_Lookup(lookupRange, lookupValue, returnRange)
+    Dim Value As Variant: Value = Range_Lookup(lookupRange, lookupValue, returnRange)
     
-    If IsNull(value) Then
+    If IsNull(Value) Then
         UDF_Lookup = CVErr(xlValue)
         Exit Function
     End If
     
-    UDF_Lookup = value
+    UDF_Lookup = Value
 End Function

@@ -61,14 +61,14 @@ Public Function FileSystem_EnumerateFiles(ByVal path As String, Optional ByVal m
     
     If count = 0 Then Exit Function
     
-    Dim index As Long: index = 1
+    Dim Index As Long: Index = 1
     ReDim result(1 To count) As String
     
     filename = Dir$(path & match, flags)
     While filename <> vbNullString
         If (filename <> ".") And (filename <> "..") Then
-            result(index) = filename
-            index = index + 1
+            result(Index) = filename
+            Index = Index + 1
         End If
         
         filename = Dir$()
@@ -127,18 +127,18 @@ Public Function Math_Fibonacci(ByVal n As Long) As Double
     Math_Fibonacci = current
 End Function
 
-Public Function String_IsNullOrWhitespace(ByVal value As String) As Boolean
-    String_IsNullOrWhitespace = String_IsNull(String_Trim(value))
+Public Function String_IsNullOrWhitespace(ByVal Value As String) As Boolean
+    String_IsNullOrWhitespace = String_IsNull(String_Trim(Value))
 End Function
 
-Public Function String_IsNull(ByVal value As String) As Boolean
-    String_IsNull = (value = vbNullString)
+Public Function String_IsNull(ByVal Value As String) As Boolean
+    String_IsNull = (Value = vbNullString)
 End Function
 
-Public Function String_IsNumber(ByVal value As String) As Boolean
+Public Function String_IsNumber(ByVal Value As String) As Boolean
     On Error GoTo Error:
     
-    Dim number As Double: number = CDbl(value)
+    Dim number As Double: number = CDbl(Value)
     
     String_IsNumber = True
     Exit Function
@@ -147,70 +147,70 @@ Error:
     String_IsNumber = False
 End Function
 
-Public Function String_Contains(ByVal value As String, ByVal match As String, Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As Boolean
-    String_Contains = (InStr(1, value, match, compareMethod) <> 0)
+Public Function String_Contains(ByVal Value As String, ByVal match As String, Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As Boolean
+    String_Contains = (InStr(1, Value, match, compareMethod) <> 0)
 End Function
 
-Public Function String_StartsWith(ByVal value As String, ByVal match As String, Optional ByVal compareMethod As VbCompareMethod = vbTextCompare) As Boolean
-    If String_IsNull(value) Then
+Public Function String_StartsWith(ByVal Value As String, ByVal match As String, Optional ByVal compareMethod As VbCompareMethod = vbTextCompare) As Boolean
+    If String_IsNull(Value) Then
         String_StartsWith = False
         Exit Function
     End If
     
-    String_StartsWith = (InStr(1, value, match, compareMethod) = 1)
+    String_StartsWith = (InStr(1, Value, match, compareMethod) = 1)
 End Function
 
-Public Function String_EndsWith(ByVal value As String, ByVal match As String, Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As Boolean
-    If String_IsNull(value) Then
+Public Function String_EndsWith(ByVal Value As String, ByVal match As String, Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As Boolean
+    If String_IsNull(Value) Then
         String_EndsWith = False
         Exit Function
     End If
     
-    String_EndsWith = ((InStrRev(value, match, -1, compareMethod) + Len(match) - 1) = Len(value))
+    String_EndsWith = ((InStrRev(Value, match, -1, compareMethod) + Len(match) - 1) = Len(Value))
 End Function
 
-Public Function String_Insert(ByVal value As String, ByVal other As String, ByVal position As Long) As String
-    String_Insert = Left$(value, position - 1) & other & Right$(value, Len(value) - position + 1)
+Public Function String_Insert(ByVal Value As String, ByVal other As String, ByVal position As Long) As String
+    String_Insert = Left$(Value, position - 1) & other & Right$(Value, Len(Value) - position + 1)
 End Function
 
-Public Function String_TrimStart(ByVal value As String, Optional ByVal match As String = " ", Optional compareMethod As VbCompareMethod = vbBinaryCompare) As String
+Public Function String_TrimStart(ByVal Value As String, Optional ByVal match As String = " ", Optional compareMethod As VbCompareMethod = vbBinaryCompare) As String
     Dim match_length As Long: match_length = Len(match)
     
-    While String_StartsWith(value, match, compareMethod)
-        value = Right$(value, Len(value) - match_length)
+    While String_StartsWith(Value, match, compareMethod)
+        Value = Right$(Value, Len(Value) - match_length)
     Wend
     
-    String_TrimStart = value
+    String_TrimStart = Value
 End Function
 
-Public Function String_TrimEnd(ByVal value As String, Optional ByVal match As String = " ", Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As String
+Public Function String_TrimEnd(ByVal Value As String, Optional ByVal match As String = " ", Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As String
     Dim match_length As Long: match_length = Len(match)
     
-    While String_EndsWith(value, match, compareMethod)
-        value = Left$(value, Len(value) - match_length)
+    While String_EndsWith(Value, match, compareMethod)
+        Value = Left$(Value, Len(Value) - match_length)
     Wend
     
-    String_TrimEnd = value
+    String_TrimEnd = Value
 End Function
 
-Public Function String_Trim(ByVal value As String, Optional ByVal match As String = " ", Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As String
-    String_Trim = String_TrimStart(String_TrimEnd(value, match, compareMethod), match, compareMethod)
+Public Function String_Trim(ByVal Value As String, Optional ByVal match As String = " ", Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As String
+    String_Trim = String_TrimStart(String_TrimEnd(Value, match, compareMethod), match, compareMethod)
 End Function
 
 Public Function String_Format(ByVal format As String, ParamArray parameters() As Variant) As String
     Dim result As String: result = format
     
-    Dim tokens() As String: tokens = RegEx_Execute(result, "\{\d+\}")
+    Dim matches() As RegexMatch: matches = RegEx_Execute(result, "\{\d+\}")
     
     Dim i As Long
-    For i = LBound(tokens) To UBound(tokens)
-        Dim index As Long: index = CLng(Mid$(tokens(i), 2, Len(tokens(i)) - 1))
-        tokens(i) = parameters(i)
+    For i = LBound(matches) To UBound(matches)
+        Dim Index As Long: Index = CLng(Mid$(matches(i).Value, 2, Len(matches(i).Value) - 1))
+        matches(i).Value = parameters(i)
     Next
     
-    Dim current As Long: current = LBound(tokens)
+    Dim current As Long: current = LBound(matches)
     While result Like RegEx_Test(result, "\{\d+\}")
-        result = RegEx_Replace(result, "\{\d+\}", tokens(current), flagGlobal:=False)
+        result = RegEx_Replace(result, "\{\d+\}", matches(current).Value, flagGlobal:=False)
         current = current + 1
     Wend
 End Function
@@ -318,12 +318,12 @@ Public Function ListObject_FillRowAssociative(ByVal row As ListRow, ParamArray v
     Dim i As Long
     For i = LBound(values) To UBound(values)
         Dim column As String: column = values(i)(0)
-        Dim value As String: value = values(i)(1)
+        Dim Value As String: Value = values(i)(1)
         
-        listObject.ListColumns(column).range(rowIndex:=row.index + rowOffset) = value
+        listObject.ListColumns(column).range(rowIndex:=row.Index + rowOffset) = Value
     Next
     
-    Set ListObject_FillRowAssociative = listObject.DataBodyRange(rowIndex:=row.index)
+    Set ListObject_FillRowAssociative = listObject.DataBodyRange(rowIndex:=row.Index)
 End Function
 
 Public Sub ListObject_ClearData(ByVal listObject As listObject, Optional ByVal preserveTemplateRow As Boolean = False)
@@ -336,10 +336,10 @@ Public Sub ListObject_ClearData(ByVal listObject As listObject, Optional ByVal p
     End With
 End Sub
 
-Public Function ListObject_ColumnExists(ByVal listObject As listObject, ByVal index As Variant) As Boolean
+Public Function ListObject_ColumnExists(ByVal listObject As listObject, ByVal Index As Variant) As Boolean
     On Error GoTo Error:
     
-    Dim columnObject As ListColumn: Set columnObject = listObject.ListColumns(index)
+    Dim columnObject As ListColumn: Set columnObject = listObject.ListColumns(Index)
     
     ListObject_ColumnExists = True
     Exit Function
@@ -360,10 +360,10 @@ Public Function ListObject_FindColumn(ByVal listObject As listObject, ByVal name
     Set ListObject_FindColumn = Nothing
 End Function
 
-Public Function ListObject_FindInColumn(ByVal column As ListColumn, ByVal value As Variant) As Long
+Public Function ListObject_FindInColumn(ByVal column As ListColumn, ByVal Value As Variant) As Long
     Dim i As Long
     For i = 1 To column.range.count
-        If column.range(rowIndex:=i) = value Then
+        If column.range(rowIndex:=i) = Value Then
             ListObject_FindInColumn = i
             Exit Function
         End If
@@ -404,20 +404,20 @@ End Function
 Public Function Range_Lookup(ByVal lookupRange As range, ByVal lookupValue As Variant, ByVal returnRange As range) As Variant
     On Error GoTo Error:
     
-    Dim index As Long: index = Range_Match(lookupRange, lookupValue)
-    If index = -1 Then Err.Raise xlReference
+    Dim Index As Long: Index = Range_Match(lookupRange, lookupValue)
+    If Index = -1 Then Err.Raise xlReference
     
-    Range_Lookup = returnRange(index).value
+    Range_Lookup = returnRange(Index).Value
     Exit Function
     
 Error:
     Range_Lookup = Null
 End Function
 
-Public Function Range_Match(ByVal range As range, ByVal value As Variant) As Long
+Public Function Range_Match(ByVal range As range, ByVal Value As Variant) As Long
     On Error GoTo Error:
     
-    Range_Match = CLng(range.Application.WorksheetFunction.match(value, range, 0))
+    Range_Match = CLng(range.Application.WorksheetFunction.match(Value, range, 0))
     Exit Function
     
 Error:
@@ -456,32 +456,32 @@ Public Function UDF_Ifs(ByVal default As Variant, ParamArray pairs() As Variant)
     UDF_Ifs = default
 End Function
 
-Public Function UDF_Match(ByVal range As range, ByVal value As Variant) As Variant
-    Dim index As Long: index = Range_Match(range, value)
+Public Function UDF_Match(ByVal range As range, ByVal Value As Variant) As Variant
+    Dim Index As Long: Index = Range_Match(range, Value)
     
-    If index = -1 Then
+    If Index = -1 Then
         UDF_Match = CVErr(xlValue)
         Exit Function
     End If
     
-    UDF_Match = index
+    UDF_Match = Index
 End Function
 
 Public Function UDF_Lookup(ByVal lookupRange As range, ByVal lookupValue As Variant, ByVal returnRange As range) As Variant
-    Dim value As Variant: value = Range_Lookup(lookupRange, lookupValue, returnRange)
+    Dim Value As Variant: Value = Range_Lookup(lookupRange, lookupValue, returnRange)
     
-    If IsNull(value) Then
+    If IsNull(Value) Then
         UDF_Lookup = CVErr(xlValue)
         Exit Function
     End If
     
-    UDF_Lookup = value
+    UDF_Lookup = Value
 End Function
 
-Public Function Workbook_WorksheetExists(ByVal book As Workbook, ByVal index As Variant) As Boolean
+Public Function Workbook_WorksheetExists(ByVal book As Workbook, ByVal Index As Variant) As Boolean
     On Error GoTo Error:
     
-    Dim sheet As Worksheet: Set sheet = book.Worksheets(index)
+    Dim sheet As Worksheet: Set sheet = book.Worksheets(Index)
     
     Workbook_WorksheetExists = True
     Exit Function
@@ -516,10 +516,10 @@ Public Function Workbook_FindTable(ByVal book As Workbook, ByVal name As String,
 End Function
 
 
-Public Function Worksheet_TableExists(ByVal sheet As Worksheet, ByVal index As Variant) As Boolean
+Public Function Worksheet_TableExists(ByVal sheet As Worksheet, ByVal Index As Variant) As Boolean
     On Error GoTo Error:
     
-    Dim table As listObject: Set table = sheet.ListObjects(index)
+    Dim table As listObject: Set table = sheet.ListObjects(Index)
     
     Worksheet_TableExists = True
     Exit Function
@@ -528,10 +528,10 @@ Error:
     Worksheet_TableExists = False
 End Function
 
-Public Function Worksheet_ChartExists(ByVal sheet As Worksheet, ByVal index As Variant) As Boolean
+Public Function Worksheet_ChartExists(ByVal sheet As Worksheet, ByVal Index As Variant) As Boolean
     On Error GoTo Error:
     
-    Dim chart As ChartObject: Set chart = sheet.ChartObjects(index)
+    Dim chart As ChartObject: Set chart = sheet.ChartObjects(Index)
     
     Worksheet_ChartExists = True
     Exit Function
@@ -563,18 +563,67 @@ Public Function Worksheet_FindChart(ByVal sheet As Worksheet, ByVal name As Stri
     
     Set Worksheet_FindChart = Nothing
 End Function
+#If Not Mac Then
+Private regexpObject_ As Object
+#End If
+
+Public Type RegexMatch
+    Index As Long
+    submatches() As String
+    Value As String
+End Type
+
+Public Function RegEx_Execute(ByVal test As String, ByVal pattern As String, Optional ByVal flagGlobal As Boolean = True, Optional ByVal flagIgnoreCase As Boolean = False) As RegexMatch()
+    Dim result() As RegexMatch
+    
+#If Mac Then
+    ' TODO: RegEx implementation for macOS
+#Else
+    If regexpObject_ Is Nothing Then Set regexpObject_ = CreateObject("VBScript.RegExp")
+    
+    regexpObject_.pattern = pattern
+    regexpObject_.Global = flagGlobal
+    regexpObject_.ignoreCase = flagIgnoreCase
+    
+    Dim matches As Object: Set matches = regexpObject_.Execute(test)
+    ReDim result(1 To matches.count) As RegexMatch
+    
+    Dim i As Long
+    For i = LBound(result) To UBound(result)
+        Dim match As Object: Set match = matches.Item(i - 1)
+        
+        result(i).Index = match.FirstIndex
+        
+        Dim submatches As Object: Set submatches = match.submatches
+        
+        If submatches.count > 0 Then
+            ReDim result(i).submatches(1 To submatches.count)
+            
+            Dim j As Long
+            For j = LBound(result(i).submatches) To UBound(result(i).submatches)
+                result(i).submatches(j) = submatches.Item(j - 1)
+            Next
+        End If
+        
+        result(i).Value = match.Value
+    Next
+#End If
+
+    RegEx_Execute = result
+End Function
 
 Public Function RegEx_Test(ByVal test As String, ByVal pattern As String, Optional ByVal flagGlobal As Boolean = True, Optional ByVal flagIgnoreCase As Boolean = False) As Boolean
 #If Mac Then
     ' TODO: RegEx implementation for macOS
     RegEx_Test = True
 #Else
-    Dim regexp As Object: Set regexp = CreateObject("VBScript.RegExp")
-    regexp.pattern = pattern
-    regexp.Global = flagGlobal
-    regexp.ignoreCase = flagIgnoreCase
+    If regexpObject_ Is Nothing Then Set regexpObject_ = CreateObject("VBScript.RegExp")
     
-    RegEx_Test = regexp.test(test)
+    regexpObject_.pattern = pattern
+    regexpObject_.Global = flagGlobal
+    regexpObject_.ignoreCase = flagIgnoreCase
+    
+    RegEx_Test = regexpObject_.test(test)
 #End If
 End Function
 
