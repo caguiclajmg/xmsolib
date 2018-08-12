@@ -64,3 +64,7 @@ Public Function Math_Fibonacci(ByVal n As Long) As Double
     
     Math_Fibonacci = current
 End Function
+
+Public Function Math_Random(Optional ByVal minimum As Double = 0#, Optional ByVal maximum As Double = 1#) As Double
+    Math_Random = minimum + ((maximum - minimum) * Rnd())
+End Function
