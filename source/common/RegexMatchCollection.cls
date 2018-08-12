@@ -2,7 +2,7 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "RegexMatchCollection"
+Attribute VB_Name = "RegExMatchCollection"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
@@ -15,8 +15,8 @@ Private Sub Class_Initialize()
     Set matchCollection_ = New Collection
 End Sub
 
-Public Property Get Item(ByVal index As Long) As RegexMatch
-    Set Item = matchCollection_.Item(index)
+Public Property Get Item(ByVal Index As Long) As RegexMatch
+    Set Item = matchCollection_.Item(Index)
 End Property
 
 Friend Property Get MatchCollection() As Collection

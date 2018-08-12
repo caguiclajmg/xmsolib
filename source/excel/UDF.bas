@@ -14,14 +14,14 @@ Public Function UDF_Ifs(ByVal default As Variant, ParamArray pairs() As Variant)
 End Function
 
 Public Function UDF_Match(ByVal range As range, ByVal Value As Variant) As Variant
-    Dim index As Long: index = Range_Match(range, Value)
+    Dim Index As Long: Index = Range_Match(range, Value)
     
-    If index = -1 Then
+    If Index = -1 Then
         UDF_Match = CVErr(xlValue)
         Exit Function
     End If
     
-    UDF_Match = index
+    UDF_Match = Index
 End Function
 
 Public Function UDF_Lookup(ByVal lookupRange As range, ByVal lookupValue As Variant, ByVal returnRange As range) As Variant

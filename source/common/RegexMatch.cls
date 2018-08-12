@@ -2,7 +2,7 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "RegexMatch"
+Attribute VB_Name = "RegExMatch"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
@@ -18,19 +18,19 @@ Private Sub Class_Initialize()
     Set submatchCollection_ = New Collection
 End Sub
 
-Public Property Get SubMatches(ByVal index As Long) As String
-    SubMatches = submatchCollection_.Item(index)
+Public Property Get SubMatches(ByVal Index As Long) As String
+    SubMatches = submatchCollection_.Item(Index)
 End Property
 
 Friend Property Get SubMatchCollection() As Collection
     Set SubMatchCollection = submatchCollection_
 End Property
 
-Public Property Get index() As Long
-    index = index_
+Public Property Get Index() As Long
+    Index = index_
 End Property
 
-Friend Property Let index(ByVal rhs As Long)
+Friend Property Let Index(ByVal rhs As Long)
     index_ = rhs
 End Property
 

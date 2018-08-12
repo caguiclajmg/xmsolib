@@ -79,7 +79,7 @@ Public Function String_Format(ByVal format As String, ParamArray parameters() As
     Dim match As RegexMatch, offset As Long
     For Each match In matches
         Dim parameterIndex As Long: parameterIndex = CLng(match.SubMatches(1))
-        result = Left$(result, match.index + offset) & parameters(parameterIndex) & Mid$(result, match.index + offset + match.Length + 1)
+        result = Left$(result, match.Index + offset) & parameters(parameterIndex) & Mid$(result, match.Index + offset + match.Length + 1)
         offset = offset + Len(CStr(parameters(parameterIndex))) - match.Length
     Next
     
