@@ -9,7 +9,7 @@ Public Function RegEx_Execute(ByVal test As String, ByVal pattern As String, Opt
 
 #If Mac Then
     ' TODO: RegEx implementation for macOS
-    Err.Raise 423, Description:="RegEx_Execute not yet implemented on macOS."
+    Err.Raise 5, Description:="RegEx_Execute not yet implemented on macOS."
 #Else
     If regexpObject_ Is Nothing Then Set regexpObject_ = CreateObject("VBScript.RegExp")
 
@@ -42,7 +42,7 @@ End Function
 Public Function RegEx_Test(ByVal test As String, ByVal pattern As String, Optional ByVal flagGlobal As Boolean = True, Optional ByVal flagIgnoreCase As Boolean = False, Optional ByVal flagMultiLine As Boolean = True) As Boolean
 #If Mac Then
     ' TODO: RegEx implementation for macOS
-    Err.Raise 423, Description:="RegEx_Execute not yet implemented on macOS."
+    Err.Raise 5, Description:="RegEx_Execute not yet implemented on macOS."
 #Else
     If regexpObject_ Is Nothing Then Set regexpObject_ = CreateObject("VBScript.RegExp")
 
@@ -58,7 +58,7 @@ End Function
 Public Function RegEx_Replace(ByVal test As String, ByVal pattern As String, ByVal replace As String, Optional ByVal flagGlobal As Boolean = True, Optional ByVal flagIgnoreCase As Boolean = False, Optional ByVal flagMultiLine As Boolean = True) As String
 #If Mac Then
     ' TODO: RegEx implementation for macOS
-    Err.Raise 423, Description:="RegEx_Execute not yet implemented on macOS."
+    Err.Raise 5, Description:="RegEx_Execute not yet implemented on macOS."
 #Else
     If regexpObject_ Is Nothing Then Set regexpObject_ = CreateObject("VBScript.RegExp")
 
