@@ -2,7 +2,7 @@ VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1  'True
 END
-Attribute VB_Name = "RegExMatch"
+Attribute VB_Name = "RegexMatch"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
@@ -34,11 +34,11 @@ Friend Property Let Index(ByVal rhs As Long)
     index_ = rhs
 End Property
 
-Public Property Get Value() As String
-    Value = value_
+Public Property Get value() As String
+    value = value_
 End Property
 
-Friend Property Let Value(ByVal rhs As String)
+Friend Property Let value(ByVal rhs As String)
     value_ = rhs
 End Property
 

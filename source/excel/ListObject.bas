@@ -40,9 +40,9 @@ Public Function ListObject_FillRowAssociative(ByVal row As ListRow, ParamArray v
     Dim i As Long
     For i = LBound(values) To UBound(values)
         Dim column As String: column = values(i)(0)
-        Dim Value As String: Value = values(i)(1)
+        Dim value As String: value = values(i)(1)
         
-        listObject.ListColumns(column).range(rowIndex:=row.Index + rowOffset) = Value
+        listObject.ListColumns(column).range(rowIndex:=row.Index + rowOffset) = value
     Next
     
     Set ListObject_FillRowAssociative = listObject.DataBodyRange(rowIndex:=row.Index)
@@ -82,10 +82,10 @@ Public Function ListObject_FindColumn(ByVal listObject As listObject, ByVal name
     Set ListObject_FindColumn = Nothing
 End Function
 
-Public Function ListObject_FindInColumn(ByVal column As ListColumn, ByVal Value As Variant) As Long
+Public Function ListObject_FindInColumn(ByVal column As ListColumn, ByVal value As Variant) As Long
     Dim i As Long
     For i = 1 To column.range.count
-        If column.range(rowIndex:=i) = Value Then
+        If column.range(rowIndex:=i) = value Then
             ListObject_FindInColumn = i
             Exit Function
         End If

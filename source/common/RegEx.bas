@@ -25,7 +25,7 @@ Public Function RegEx_Execute(ByVal test As String, ByVal pattern As String, Opt
         Dim resultMatch As RegexMatch: Set resultMatch = New RegexMatch
         resultMatch.Index = match.FirstIndex
         resultMatch.Length = match.Length
-        resultMatch.Value = match.Value
+        resultMatch.value = match.value
 
         Dim submatch As Variant
         For Each submatch In match.SubMatches
