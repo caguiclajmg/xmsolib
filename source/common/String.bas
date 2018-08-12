@@ -74,19 +74,14 @@ End Function
 Public Function String_Format(ByVal format As String, ParamArray parameters() As Variant) As String
     Dim result As String: result = format
     
-    Dim matches() As RegexMatch: matches = RegEx_Execute(result, "\{\d+\}")
+    Dim matches As RegexMatchCollection: Set matches = RegEx_Execute(format, "\{(\d+)\}")
     
-    Dim i As Long
-    For i = LBound(matches) To UBound(matches)
-        Dim Index As Long: Index = CLng(Mid$(matches(i).Value, 2, Len(matches(i).Value) - 1))
-        matches(i).Value = parameters(i)
+    Dim match As RegexMatch, offset As Long
+    For Each match In matches
+        Dim parameterIndex As Long: parameterIndex = CLng(match.SubMatches(1))
+        result = Left$(result, match.index + offset) & parameters(parameterIndex) & Mid$(result, match.index + offset + match.Length + 1)
+        offset = offset + Len(CStr(parameters(parameterIndex))) - match.Length
     Next
-    
-    Dim current As Long: current = LBound(matches)
-    While result Like RegEx_Test(result, "\{\d+\}")
-        result = RegEx_Replace(result, "\{\d+\}", matches(current).Value, flagGlobal:=False)
-        current = current + 1
-    Wend
     
     String_Format = result
 End Function

@@ -42,10 +42,10 @@ Public Function ListObject_FillRowAssociative(ByVal row As ListRow, ParamArray v
         Dim column As String: column = values(i)(0)
         Dim Value As String: Value = values(i)(1)
         
-        listObject.ListColumns(column).range(rowIndex:=row.Index + rowOffset) = Value
+        listObject.ListColumns(column).range(rowIndex:=row.index + rowOffset) = Value
     Next
     
-    Set ListObject_FillRowAssociative = listObject.DataBodyRange(rowIndex:=row.Index)
+    Set ListObject_FillRowAssociative = listObject.DataBodyRange(rowIndex:=row.index)
 End Function
 
 Public Sub ListObject_ClearData(ByVal listObject As listObject, Optional ByVal preserveTemplateRow As Boolean = False)
@@ -58,10 +58,10 @@ Public Sub ListObject_ClearData(ByVal listObject As listObject, Optional ByVal p
     End With
 End Sub
 
-Public Function ListObject_ColumnExists(ByVal listObject As listObject, ByVal Index As Variant) As Boolean
+Public Function ListObject_ColumnExists(ByVal listObject As listObject, ByVal index As Variant) As Boolean
     On Error GoTo Error:
     
-    Dim columnObject As ListColumn: Set columnObject = listObject.ListColumns(Index)
+    Dim columnObject As ListColumn: Set columnObject = listObject.ListColumns(index)
     
     ListObject_ColumnExists = True
     Exit Function

@@ -37,34 +37,43 @@ Public Sub Components_Save(ByVal id As String, ByVal document As Object, ByVal p
     
     Dim component As VBComponent
     For Each component In components
-        If (component.name Like id & "_*") Or (component.name Like "common_*") Then
-            Dim extension As String
-            Select Case component.Type
-                Case vbext_ct_ClassModule, vbext_ct_Document
-                    extension = "cls"
-                    
-                Case vbext_ct_MSForm
-                    extension = "frm"
-                    
-                Case vbext_ct_StdModule
-                    extension = "bas"
-                    
-                Case Else
-                    extension = vbNullString
-            End Select
+        Dim extension As String
+        Select Case component.Type
+            Case vbext_ct_ClassModule, vbext_ct_Document
+                extension = "cls"
+                
+            Case vbext_ct_MSForm
+                extension = "frm"
+                
+            Case vbext_ct_StdModule
+                extension = "bas"
+                
+            Case Else
+                extension = vbNullString
+        End Select
+        
+        Dim component_path As String, component_name As String
+        If component.Type = vbext_ct_ClassModule Then
+            component_path = path & "common" & DIRECTORY_SEPARATOR
+            component_name = component.name
+        ElseIf component.Type = vbext_ct_StdModule Then
+            If Not ((component.name Like "common_*") Or (component.name Like id & "_*")) Then GoTo NextComponent
             
             Dim tokens() As String: tokens = Split(component.name, "_")
             
-            Dim component_path As String
-            
             component_path = path & tokens(0) & DIRECTORY_SEPARATOR
-            If Not FolderExists(component_path) Then CreateDirectory component_path
-            
-            component_path = component_path & tokens(1) & IIf(extension = vbNullString, vbNullString, "." & extension)
-            If FileExists(component_path) Then Kill (component_path)
-            
-            component.Export component_path
+            component_name = tokens(1)
+        Else
+            GoTo NextComponent
         End If
+        
+        component_path = component_path & component_name & IIf(extension = vbNullString, vbNullString, "." & extension)
+        
+        If FileExists(component_path) Then Kill (component_path)
+        
+        component.Export component_path
+        
+NextComponent:
     Next
     
     components("modComponents").Export path & "Components.bas"
