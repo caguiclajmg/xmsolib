@@ -16,6 +16,7 @@ Private Sub Class_Initialize()
 End Sub
 
 Public Property Get Item(ByVal Index As Long) As RegexMatch
+Attribute Item.VB_UserMemId = 0
     Set Item = matchCollection_.Item(Index)
 End Property
 
@@ -28,5 +29,7 @@ Private Sub Class_Terminate()
 End Sub
 
 Public Function NewEnum() As IUnknown
+Attribute NewEnum.VB_UserMemId = -4
+Attribute NewEnum.VB_MemberFlags = "40"
     Set NewEnum = matchCollection_.[_NewEnum]
 End Function
