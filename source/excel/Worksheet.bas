@@ -16,7 +16,7 @@ End Function
 Public Function Worksheet_ChartExists(ByVal sheet As Worksheet, ByVal Index As Variant) As Boolean
     On Error GoTo Error:
     
-    Dim chart As ChartObject: Set chart = sheet.ChartObjects(Index)
+    Dim Chart As ChartObject: Set Chart = sheet.ChartObjects(Index)
     
     Worksheet_ChartExists = True
     Exit Function
@@ -38,10 +38,10 @@ Public Function Worksheet_FindTable(ByVal sheet As Worksheet, ByVal name As Stri
 End Function
 
 Public Function Worksheet_FindChart(ByVal sheet As Worksheet, ByVal name As String, Optional ByVal compareMethod As VbCompareMethod = vbBinaryCompare) As ChartObject
-    Dim chart As ChartObject
-    For Each chart In sheet.ChartObjects
-        If String_StartsWith(chart.name, name, compareMethod) Then
-            Set Worksheet_FindChart = chart
+    Dim Chart As ChartObject
+    For Each Chart In sheet.ChartObjects
+        If String_StartsWith(Chart.name, name, compareMethod) Then
+            Set Worksheet_FindChart = Chart
             Exit Function
         End If
     Next
