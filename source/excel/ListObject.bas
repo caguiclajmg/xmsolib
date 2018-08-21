@@ -1,7 +1,7 @@
 Attribute VB_Name = "excel_ListObject"
 Option Explicit
 
-Public Function ListObject_InsertColumn(ByVal listObject As listObject, ByVal name As String, Optional ByVal position = 0) As ListColumn
+Public Function ListObject_InsertColumn(ByVal listObject As listObject, ByVal name As String, Optional ByVal position As Long = 0) As ListColumn
     If position = 0 Then position = listObject.ListColumns.count + 1
     
     Dim columnObject As ListColumn: Set columnObject = listObject.ListColumns.Add(position)
