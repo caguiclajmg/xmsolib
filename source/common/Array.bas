@@ -1,19 +1,19 @@
 Attribute VB_Name = "common_Array"
 Option Explicit
 
-Public Function Array_Count(ByVal arr As Variant) As Long
-    Array_Count = UBound(arr) - LBound(arr) + 1
+Public Function Array_Count(ByVal self As Variant) As Long
+    Array_Count = UBound(self) - LBound(self) + 1
 End Function
 
-Public Function Array_Equals(ByVal arr As Variant, ByVal other As Variant) As Boolean
-    If Array_Count(arr) <> Array_Count(other) Then
+Public Function Array_Equals(ByVal self As Variant, ByVal other As Variant) As Boolean
+    If Array_Count(self) <> Array_Count(other) Then
         Array_Equals = False
         Exit Function
     End If
     
     Dim i As Long
-    For i = LBound(arr) To UBound(arr)
-        If arr(i) <> other(i) Then
+    For i = LBound(self) To UBound(self)
+        If self(i) <> other(i) Then
             Array_Equals = False
             Exit Function
         End If
@@ -22,10 +22,10 @@ Public Function Array_Equals(ByVal arr As Variant, ByVal other As Variant) As Bo
     Array_Equals = True
 End Function
 
-Public Function Array_Contains(ByVal arr As Variant, ByVal match As Variant) As Boolean
+Public Function Array_Contains(ByVal self As Variant, ByVal match As Variant) As Boolean
     Dim i As Long
-    For i = LBound(arr) To UBound(arr)
-        If arr(i) = match Then
+    For i = LBound(self) To UBound(self)
+        If self(i) = match Then
             Array_Contains = True
             Exit Function
         End If
