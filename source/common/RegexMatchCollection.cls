@@ -15,9 +15,9 @@ Private Sub Class_Initialize()
     Set matchCollection_ = New Collection
 End Sub
 
-Public Property Get Item(ByVal Index As Long) As RegexMatch
+Public Property Get Item(ByVal index As Long) As RegexMatch
 Attribute Item.VB_UserMemId = 0
-    Set Item = matchCollection_.Item(Index)
+    Set Item = matchCollection_.Item(index)
 End Property
 
 Friend Property Get MatchCollection() As Collection

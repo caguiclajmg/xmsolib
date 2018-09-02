@@ -18,27 +18,27 @@ Private Sub Class_Initialize()
     Set submatchCollection_ = New Collection
 End Sub
 
-Public Property Get SubMatches(ByVal Index As Long) As String
-    SubMatches = submatchCollection_.Item(Index)
+Public Property Get SubMatches(ByVal index As Long) As String
+    SubMatches = submatchCollection_.Item(index)
 End Property
 
 Friend Property Get SubMatchCollection() As Collection
     Set SubMatchCollection = submatchCollection_
 End Property
 
-Public Property Get Index() As Long
-    Index = index_
+Public Property Get index() As Long
+    index = index_
 End Property
 
-Friend Property Let Index(ByVal rhs As Long)
+Friend Property Let index(ByVal rhs As Long)
     index_ = rhs
 End Property
 
-Public Property Get value() As String
-    value = value_
+Public Property Get Value() As String
+    Value = value_
 End Property
 
-Friend Property Let value(ByVal rhs As String)
+Friend Property Let Value(ByVal rhs As String)
     value_ = rhs
 End Property
 

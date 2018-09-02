@@ -11,6 +11,28 @@ Public Enum xmsoNumericComparisonOperator
     xmsoNumericComparisonOperatorBetweenInclusive
 End Enum
 
+Public Function Math_Max(ParamArray values() As Variant) As Variant
+    Dim result As Variant: result = values(LBound(values))
+    
+    Dim index As Long
+    For index = LBound(values) + 1 To UBound(values)
+        If values(index) > result Then result = values(index)
+    Next
+    
+    Math_Max = result
+End Function
+
+Public Function Math_Min(ParamArray values() As Variant) As Variant
+    Dim result As Variant: result = values(LBound(values))
+    
+    Dim index As Long
+    For index = LBound(values) + 1 To UBound(values)
+        If values(index) < result Then result = values(index)
+    Next
+    
+    Math_Min = result
+End Function
+
 Public Function Math_EvaluateNumericComparison(ByVal operator As xmsoNumericComparisonOperator, ParamArray parameters() As Variant) As Boolean
     Dim indexStart As Long: indexStart = LBound(parameters)
     

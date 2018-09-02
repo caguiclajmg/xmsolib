@@ -4,20 +4,20 @@ Option Explicit
 Public Function Range_Lookup(ByVal lookupRange As range, ByVal lookupValue As Variant, ByVal returnRange As range) As Variant
     On Error GoTo Error:
     
-    Dim Index As Long: Index = Range_Match(lookupRange, lookupValue)
-    If Index = -1 Then Err.Raise xlReference
+    Dim index As Long: index = Range_Match(lookupRange, lookupValue)
+    If index = -1 Then Err.Raise xlReference
     
-    Range_Lookup = returnRange(Index).value
+    Range_Lookup = returnRange(index).Value
     Exit Function
     
 Error:
     Range_Lookup = Null
 End Function
 
-Public Function Range_Match(ByVal range As range, ByVal value As Variant) As Long
+Public Function Range_Match(ByVal range As range, ByVal Value As Variant) As Long
     On Error GoTo Error:
     
-    Range_Match = CLng(range.Application.WorksheetFunction.match(value, range, 0))
+    Range_Match = CLng(range.Application.WorksheetFunction.match(Value, range, 0))
     Exit Function
     
 Error:

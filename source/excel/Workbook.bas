@@ -1,10 +1,10 @@
 Attribute VB_Name = "excel_Workbook"
 Option Explicit
 
-Public Function Workbook_WorksheetExists(ByVal book As Workbook, ByVal Index As Variant) As Boolean
+Public Function Workbook_WorksheetExists(ByVal book As Workbook, ByVal index As Variant) As Boolean
     On Error GoTo Error:
     
-    Dim sheet As Worksheet: Set sheet = book.Worksheets(Index)
+    Dim sheet As Worksheet: Set sheet = book.Worksheets(index)
     
     Workbook_WorksheetExists = True
     Exit Function

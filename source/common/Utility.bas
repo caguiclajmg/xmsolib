@@ -15,3 +15,9 @@ Public Const SINGLE_MAX As Single = 3.4028235E+38
 
 Public Const DOUBLE_MIN As Double = -1.79769313486231E+308
 Public Const DOUBLE_MAX As Double = 1.79769313486231E+308
+
+Public Sub Utility_Swap(ByRef a As Variant, ByRef b As Variant)
+    Dim Value As Variant: Value = a
+    a = b
+    b = Value
+End Sub

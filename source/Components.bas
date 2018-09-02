@@ -89,7 +89,7 @@ Public Sub Components_Clear(ByVal document As Object)
     
     Dim component As VBComponent
     For Each component In components
-        If regexp.test(component.name) Then components.Remove component
+        If regexp.Test(component.name) Then components.Remove component
     Next
 End Sub
 
